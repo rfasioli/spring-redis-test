@@ -2,9 +2,9 @@ package messagers;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class RedisMessagePublisher implements MessagePublisher {
 
     private final RedisTemplate<String, Object> redisTemplate;

@@ -19,8 +19,8 @@ public class RedisDataConfiguration {
     private final Integer port;
 
     public RedisDataConfiguration(
-            @Value(value = "redis.hostName") final String hostName,
-            @Value(value = "redis.port") final Integer port
+            @Value("${redis.hostName}") String hostName,
+            @Value("${redis.port}") Integer port
     ) {
         this.hostName = hostName;
         this.port = port;

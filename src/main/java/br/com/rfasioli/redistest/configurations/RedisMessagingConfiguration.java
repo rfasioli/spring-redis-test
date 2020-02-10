@@ -1,8 +1,9 @@
 package br.com.rfasioli.redistest.configurations;
 
-import messagers.MessagePublisher;
-import messagers.RedisMessagePublisher;
-import messagers.RedisMessageSubscriber;
+import br.com.rfasioli.redistest.messengers.MessagePublisher;
+import br.com.rfasioli.redistest.messengers.RedisMessagePublisher;
+import br.com.rfasioli.redistest.messengers.RedisMessageSubscriber;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -22,10 +23,17 @@ public class RedisMessagingConfiguration {
 
     private final JedisConnectionFactory jedisConnectionFactory;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final String subscriberTopic;
+    private final String publisherTopic;
 
-    public RedisMessagingConfiguration(JedisConnectionFactory jedisConnectionFactory, RedisTemplate<String, Object> redisTemplate) {
+    public RedisMessagingConfiguration(JedisConnectionFactory jedisConnectionFactory,
+                                       RedisTemplate<String, Object> redisTemplate,
+                                       @Value("${redis.subscriber.topic}") String subscriberTopic,
+                                       @Value("${redis.publisher.topic}") String publisherTopic) {
         this.jedisConnectionFactory = jedisConnectionFactory;
         this.redisTemplate = redisTemplate;
+        this.subscriberTopic = subscriberTopic;
+        this.publisherTopic = publisherTopic;
     }
 
     @Bean
@@ -38,17 +46,22 @@ public class RedisMessagingConfiguration {
         RedisMessageListenerContainer container
                 = new RedisMessageListenerContainer();
         container.setConnectionFactory(jedisConnectionFactory);
-        container.addMessageListener(messageListener(), topic());
+        container.addMessageListener(messageListener(), subscriberTopic());
         return container;
     }
 
     @Bean
     MessagePublisher redisPublisher() {
-        return new RedisMessagePublisher(redisTemplate, topic());
+        return new RedisMessagePublisher(redisTemplate, publisherTopic());
     }
 
     @Bean
-    ChannelTopic topic() {
-        return new ChannelTopic("messageQueue");
+    ChannelTopic subscriberTopic() {
+        return new ChannelTopic(subscriberTopic);
+    }
+
+    @Bean
+    ChannelTopic publisherTopic() {
+        return new ChannelTopic(publisherTopic);
     }
 }

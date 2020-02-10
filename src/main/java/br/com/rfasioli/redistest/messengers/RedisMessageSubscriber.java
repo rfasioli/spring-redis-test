@@ -1,4 +1,4 @@
-package messagers;
+package br.com.rfasioli.redistest.messengers;
 
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;

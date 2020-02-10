@@ -1,0 +1,5 @@
+redis:
+  publisher:
+    topic: topic1
+  subscriber:
+    topic: topic2

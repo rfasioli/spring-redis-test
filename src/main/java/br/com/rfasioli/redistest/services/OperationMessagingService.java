@@ -7,8 +7,8 @@ import br.com.rfasioli.redistest.interfaces.OperationPublishUseCase;
 import br.com.rfasioli.redistest.mappers.OperationDTOMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import messagers.MessagePublisher;
-import messagers.RedisMessageSubscriber;
+import br.com.rfasioli.redistest.messengers.MessagePublisher;
+import br.com.rfasioli.redistest.messengers.RedisMessageSubscriber;
 import org.springframework.stereotype.Service;
 
 @Service

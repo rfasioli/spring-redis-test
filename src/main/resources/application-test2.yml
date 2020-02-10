@@ -1,0 +1,7 @@
+redis:
+  publisher:
+    topic: topic2
+  subscriber:
+    topic: topic1
+
+server.port: 8081
